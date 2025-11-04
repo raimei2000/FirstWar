@@ -12,6 +12,15 @@ public class Player : MonoBehaviour
     Vector3 EndPos;
     public float bullet_speed;
 
+    // bullet count
+    public int bullet_count = 0;
+
+    float[] PosX01 = { 0.0f };
+    float[] PosX02 = { -0.15f, 0.15f };
+    float[] PosX03 = { -0.15f, 0.0f, 0.15f };
+    float[] PosX04 = { -0.3f, -0.15f, 0.15f, 0.3f };
+    float[] PosX05 = { -0.3f, -0.15f, 0.0f, 0.15f, 0.3f };
+
     // Start is called before the first frame update
     void Start()
     {
@@ -101,7 +110,50 @@ public class Player : MonoBehaviour
     {
         AnimatorChange("SHOOT");
 
-        GameObject go = Instantiate(bulletPrefab, new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z + 1.0f), Quaternion.identity);
-        Destroy(go, 3.0f);
+        for (int i = 0; i < PosX(bullet_count).Length; i++)
+        {
+            GameObject go = Instantiate(bulletPrefab, new Vector3(transform.position.x + PosX(bullet_count)[i], transform.position.y + 0.5f, transform.position.z + 1.0f), Quaternion.identity);
+            Destroy(go, 3.0f);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == ("ATK_Speed"))
+        {
+            bullet_speed -= 0.2f;
+
+            if (bullet_speed <= 0.2f)
+            {
+                bullet_speed = 0.2f;
+            }
+        }
+        else if (other.gameObject.tag == ("ATK_Count"))
+        {
+            bullet_count++;
+            if (bullet_count >= 4)
+            {
+                bullet_count = 4;
+            }
+        }
+    }
+
+    private float[] PosX(int count)
+    {
+        switch (count)
+        {
+            case 0:
+                return PosX01;
+            case 1:
+                return PosX02;
+            case 2:
+                return PosX03;
+            case 3:
+                return PosX04;
+            case 4:
+                return PosX05;
+            default:
+                return null;
+        }
     }
 }
