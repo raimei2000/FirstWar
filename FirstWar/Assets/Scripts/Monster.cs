@@ -12,16 +12,23 @@ public class Monster : MonoBehaviour
     public Slider healthBar;
     public int maxHP;
 
+    // player gets score when this monster dies.
+    public int score;
+
     Animator anim;
     bool isDead = false;
 
     public GameObject hitParticle;
+
+    private GameObject scoreSystem;
 
     // Start is called before the first frame update
     void Start()
     {
         maxHP = HP;
         anim = GetComponent<Animator>();
+
+        scoreSystem = GameObject.FindGameObjectWithTag("System");
     }
 
     // Update is called once per frame
@@ -56,6 +63,7 @@ public class Monster : MonoBehaviour
                     Destroy(GetComponent<Rigidbody>());
                     GetComponent<CapsuleCollider>().enabled = false;
                     anim.SetTrigger("Death");
+                    Destroy(gameObject, 1.0f);
                 }
                 Destroy(other.transform.parent.gameObject); // 만난 건 capsule 오브젝트.
             }

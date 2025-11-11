@@ -400,6 +400,7 @@
 "Assets/Mini Simple Characters Skeleton Demo/Readme/Scripts/Readme.cs"
 "Assets/Scripts/Bullet.cs"
 "Assets/Scripts/CameraMovement.cs"
+"Assets/Scripts/EndPoint.cs"
 "Assets/Scripts/Item.cs"
 "Assets/Scripts/Monster.cs"
 "Assets/Scripts/Player.cs"
