@@ -15,6 +15,8 @@ public class Monster : MonoBehaviour
     Animator anim;
     bool isDead = false;
 
+    public GameObject hitParticle;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,8 +37,13 @@ public class Monster : MonoBehaviour
     {
         if (other.gameObject.tag == "Bullet")
         {
-            Debug.Log("Hit!");
+            //Debug.Log("Hit!");
             HP--;
+
+            SoundManager.instance.AudioStart(1);
+
+            Instantiate(hitParticle, other.gameObject.transform.position, Quaternion.identity);
+
 
             healthBar.value = (float)HP / maxHP;
 

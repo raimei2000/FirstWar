@@ -21,6 +21,10 @@ public class Player : MonoBehaviour
     float[] PosX04 = { -0.3f, -0.15f, 0.15f, 0.3f };
     float[] PosX05 = { -0.3f, -0.15f, 0.0f, 0.15f, 0.3f };
 
+    public ParticleSystem LevelUp_Particle;
+
+    //public SoundManager audio;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -110,6 +114,9 @@ public class Player : MonoBehaviour
     {
         AnimatorChange("SHOOT");
 
+        //audio.AudioStart(1);
+        SoundManager.instance.AudioStart(0);
+
         for (int i = 0; i < PosX(bullet_count).Length; i++)
         {
             GameObject go = Instantiate(bulletPrefab, new Vector3(transform.position.x + PosX(bullet_count)[i], transform.position.y + 0.5f, transform.position.z + 1.0f), Quaternion.identity);
@@ -121,6 +128,8 @@ public class Player : MonoBehaviour
     {
         if (other.gameObject.tag == ("ATK_Speed"))
         {
+            LevelUp(other.gameObject);
+
             bullet_speed -= 0.2f;
 
             if (bullet_speed <= 0.2f)
@@ -130,6 +139,8 @@ public class Player : MonoBehaviour
         }
         else if (other.gameObject.tag == ("ATK_Count"))
         {
+            LevelUp(other.gameObject);
+
             bullet_count++;
             if (bullet_count >= 4)
             {
@@ -156,4 +167,12 @@ public class Player : MonoBehaviour
                 return null;
         }
     }
+
+    private void LevelUp(GameObject obj)
+    {
+        SoundManager.instance.AudioStart(2);
+        Destroy(obj);
+        LevelUp_Particle.Play();
+    }
+
 }

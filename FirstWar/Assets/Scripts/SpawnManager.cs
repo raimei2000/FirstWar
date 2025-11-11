@@ -16,7 +16,7 @@ public class SpawnManager : MonoBehaviour
     IEnumerator Spawn_Coroutine()
     {
         float xPos = Random.Range(-4.3f, 4.3f);
-        float zPos = Random.Range(33.5f, 55.5f);
+        float zPos = Random.Range(50.5f, 55.5f);
         Instantiate(monsterPrefab, new Vector3(xPos, 0.05f, zPos), Quaternion.Euler(0, 178.0f, 0));
         yield return new WaitForSeconds(Random.Range(1.0f, 3.0f));
 
