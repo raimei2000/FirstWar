@@ -9,6 +9,9 @@ TagManager:
   - ATK_Count
   - Monster
   - System
+  - FxTemporaire
+  - ATK_Up
+  - SPD_Up
   layers:
   - Default
   - TransparentFX

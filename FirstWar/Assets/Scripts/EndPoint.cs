@@ -5,16 +5,12 @@ using UnityEngine;
 public class EndPoint : MonoBehaviour
 {
     public GameObject gameOverPanel;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     private void OnTriggerEnter(Collider collider)
     {
         if (collider.CompareTag("Monster"))
         {
+            GameManager.Instance.GameOver();
             gameOverPanel.SetActive(true);
             Destroy(collider.gameObject);
         }

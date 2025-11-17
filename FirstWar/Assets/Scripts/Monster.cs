@@ -7,47 +7,50 @@ public class Monster : MonoBehaviour
 {
     // speed of monster
     public float speed;
-    public int HP = 3;
+    public int HP = 2;
 
     public Slider healthBar;
     public int maxHP;
-
-    // player gets score when this monster dies.
-    public int score;
 
     Animator anim;
     bool isDead = false;
 
     public GameObject hitParticle;
 
-    private GameObject scoreSystem;
+    private ScoreText scoreText;
 
     // Start is called before the first frame update
     void Start()
     {
         maxHP = HP;
         anim = GetComponent<Animator>();
-
-        scoreSystem = GameObject.FindGameObjectWithTag("System");
+        //Debug.Log("HP " + maxHP.ToString() + "인 몬스터 생성.");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isDead == false)
+        if (isDead == false && GameManager.Instance.isGameOver == false)
         {
             transform.position += transform.forward * speed * Time.deltaTime;
         }
     }
 
+    public void Initialize(ScoreText target, int hp)
+    {
+        scoreText = target;
+        HP = hp;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Bullet")
+        if (other.CompareTag("Bullet"))
         {
             //Debug.Log("Hit!");
-            HP--;
+            HP -= GameManager.Instance.playerAttack;
+            //Debug.Log(GameManager.Instance.playerAttack + "만큼 데미지");
 
-            SoundManager.instance.AudioStart(1);
+            SoundManager.instance.AudioStart(0);
 
             Instantiate(hitParticle, other.gameObject.transform.position, Quaternion.identity);
 
@@ -60,12 +63,14 @@ public class Monster : MonoBehaviour
                 {
                     isDead = true;
 
+                    scoreText.UpdateScore(maxHP);
+
                     Destroy(GetComponent<Rigidbody>());
                     GetComponent<CapsuleCollider>().enabled = false;
                     anim.SetTrigger("Death");
                     Destroy(gameObject, 1.0f);
                 }
-                Destroy(other.transform.parent.gameObject); // 만난 건 capsule 오브젝트.
+                //Destroy(other.transform.parent.gameObject); // 만난 건 capsule 오브젝트.
             }
         }
     }

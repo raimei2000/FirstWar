@@ -31,7 +31,7 @@ public class SoundManager : MonoBehaviour
         }
         source = GetComponent<AudioSource>();
 
-        audios[0] = Resources.Load<AudioClip>("Hit");
+        //audios[0] = Resources.Load<AudioClip>("Hit");
     }
     
     public void AudioStart(int value)
